@@ -3,14 +3,14 @@ module gitee.com/baixudong/linux
 go 1.21.0
 
 require (
-	gitee.com/baixudong/re v0.0.0-20230726070429-e1a623b3c133
-	gitee.com/baixudong/tools v0.0.0-20230726070525-d80da902e36d
-	github.com/pkg/sftp v1.13.5
+	gitee.com/baixudong/re v0.0.0-20230809033040-360c1d945e59
+	gitee.com/baixudong/tools v0.0.0-20230813075850-b9539354fc2f
+	github.com/pkg/sftp v1.13.6
 	golang.org/x/crypto v0.12.0
 )
 
 require (
-	gitee.com/baixudong/kinds v0.0.0-20230726070402-0bc6b1ebb086 // indirect
+	gitee.com/baixudong/kinds v0.0.0-20230809033013-c3d6d3479f8c // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect

@@ -204,10 +204,18 @@ func (obj *Screen) hasPrefix(txt string) bool { //是否匹配到命令行前缀
 func (obj *Screen) bytes() []byte {
 	var allCon []byte
 	lastTime := time.Now().Add(obj.waitTime)
-	afterTime := time.NewTimer(obj.waitTime)
-	defer afterTime.Stop()
+	var afterTime *time.Timer
+	defer func() {
+		if afterTime != nil {
+			afterTime.Stop()
+		}
+	}()
 	for {
-		afterTime.Reset(obj.waitTime)
+		if afterTime == nil {
+			afterTime = time.NewTimer(obj.waitTime)
+		} else {
+			afterTime.Reset(obj.waitTime)
+		}
 		select {
 		case con := <-obj.pip.outData:
 			allCon = append(allCon, con...)
