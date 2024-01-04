@@ -6,7 +6,7 @@ require (
 	github.com/gospider007/re v0.0.0-20231024115818-adfd03636256
 	github.com/gospider007/tools v0.0.0-20231202084937-8b2bc66f8198
 	github.com/pkg/sftp v1.13.6
-	golang.org/x/crypto v0.16.0
+	golang.org/x/crypto v0.17.0
 )
 
 require (
