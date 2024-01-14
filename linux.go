@@ -1,6 +1,7 @@
 package linux
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
@@ -33,6 +34,7 @@ type ClientOption struct {
 type Client struct {
 	client *ssh.Client
 	pwd    string
+	usr    string
 }
 
 type Ssh struct {
@@ -46,7 +48,9 @@ type Screen struct {
 	client   *Ssh
 	pip      *ScreenPip
 	waitTime time.Duration
+	usr      string
 	pwd      string
+	suffix   []byte
 	ctx      context.Context
 	cnl      context.CancelFunc
 }
@@ -131,7 +135,7 @@ func NewClient(option ClientOption) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Client{client: client, pwd: option.Pwd}, nil
+	return &Client{client: client, pwd: option.Pwd, usr: option.Usr}, nil
 }
 func (obj *Client) Close() error {
 	return obj.client.Close()
@@ -162,7 +166,7 @@ func (obj *Client) NewScreen(preCtx context.Context, name string, waitTimes ...t
 	if len(waitTimes) > 0 {
 		waitTime = waitTimes[0]
 	} else {
-		waitTime = 5
+		waitTime = time.Second * 5
 	}
 	ctx, cnl := context.WithCancel(preCtx)
 	pip := ScreenPip{inData: make(chan []byte), outData: make(chan []byte), waitTime: waitTime, ctx: ctx, cnl: cnl}
@@ -178,11 +182,12 @@ func (obj *Client) NewScreen(preCtx context.Context, name string, waitTimes ...t
 		client:   client,
 		pip:      &pip,
 		waitTime: waitTime,
+		usr:      obj.usr,
 		pwd:      obj.pwd,
 		ctx:      ctx,
 		cnl:      cnl,
 	}
-	if !screen.hasPrefix(tools.BytesToString(screen.bytes())) {
+	if !screen.initSuffix(screen.bytes()) {
 		return nil, errors.New("打开 linux 失败")
 	}
 	cmd := []byte(fmt.Sprintf("screen -x %s\n", name))
@@ -198,8 +203,24 @@ func (obj *Client) NewScreen(preCtx context.Context, name string, waitTimes ...t
 	}
 	return screen, nil
 }
-func (obj *Screen) hasPrefix(txt string) bool { //是否匹配到命令行前缀
-	return re.Search(`\[.+?\][$#]\s`, txt) != nil
+func (obj *Screen) initSuffix(txt []byte) bool { //获取前缀 Suffix
+	sss := bytes.Split(txt, []byte("\n"))
+	lastBytes := sss[len(sss)-1]
+	i := bytes.Index(lastBytes, tools.StringToBytes(obj.usr))
+	if i == -1 {
+		return false
+	}
+	ccc := lastBytes[i:]
+	i = bytes.Index(ccc, []byte("~"))
+	if i == -1 {
+		return false
+	}
+	obj.suffix = bytes.Trim(ccc[:i], " ")
+	return true
+}
+func (obj *Screen) hasSuffix(txt []byte) bool { //获取前缀 Suffix
+	sss := bytes.Split(txt, []byte("\n"))
+	return bytes.Contains(sss[len(sss)-1], obj.suffix)
 }
 func (obj *Screen) bytes() []byte {
 	var allCon []byte
@@ -219,17 +240,12 @@ func (obj *Screen) bytes() []byte {
 		select {
 		case con := <-obj.pip.outData:
 			allCon = append(allCon, con...)
-			if time.Now().Sub(lastTime) > 0 {
+			if time.Since(lastTime) > 0 {
 				obj.IsRun = true
 				return allCon
 			}
 		case <-afterTime.C:
-			lastLine := re.Search(`\n[^\n]*?$`, tools.BytesToString(allCon))
-			if lastLine != nil && !obj.hasPrefix(lastLine.Group()) {
-				obj.IsRun = true
-			} else {
-				obj.IsRun = false
-			}
+			obj.IsRun = !obj.hasSuffix(allCon)
 			return allCon
 		}
 	}
