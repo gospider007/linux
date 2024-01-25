@@ -50,7 +50,7 @@ type Screen struct {
 	waitTime time.Duration
 	usr      string
 	pwd      string
-	suffix   []byte
+	suffix   string
 	ctx      context.Context
 	cnl      context.CancelFunc
 }
@@ -205,22 +205,19 @@ func (obj *Client) NewScreen(preCtx context.Context, name string, waitTimes ...t
 }
 func (obj *Screen) initSuffix(txt []byte) bool { //获取前缀 Suffix
 	sss := bytes.Split(txt, []byte("\n"))
-	lastBytes := sss[len(sss)-1]
-	i := bytes.Index(lastBytes, tools.StringToBytes(obj.usr))
-	if i == -1 {
+	lastBytes := tools.BytesToString(sss[len(sss)-1])
+	rs := re.Search(fmt.Sprintf(`%s@[\w-]+`, obj.usr), lastBytes)
+	if rs == nil {
 		return false
 	}
-	ccc := lastBytes[i:]
-	i = bytes.Index(ccc, []byte("~"))
-	if i == -1 {
-		return false
-	}
-	obj.suffix = bytes.Trim(ccc[:i], " ")
+	obj.suffix = rs.Group()
+	// log.Print(obj.suffix)
 	return true
 }
 func (obj *Screen) hasSuffix(txt []byte) bool { //获取前缀 Suffix
 	sss := bytes.Split(txt, []byte("\n"))
-	return bytes.Contains(sss[len(sss)-1], obj.suffix)
+	st := sss[len(sss)-1]
+	return strings.Contains(tools.BytesToString(st), obj.suffix)
 }
 func (obj *Screen) bytes() []byte {
 	var allCon []byte
