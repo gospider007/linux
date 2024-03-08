@@ -211,7 +211,6 @@ func (obj *Screen) initSuffix(txt []byte) bool { //获取前缀 Suffix
 		return false
 	}
 	obj.suffix = rs.Group()
-	// log.Print(obj.suffix)
 	return true
 }
 func (obj *Screen) hasSuffix(txt []byte) bool { //获取前缀 Suffix
