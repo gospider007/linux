@@ -277,9 +277,14 @@ func (obj *Screen) Close() error {
 	obj.cnl()
 	return obj.client.Close()
 }
-func (obj *Ssh) Run(cmd string) ([]byte, error) {
+func (obj *Ssh) Output(cmd string) ([]byte, error) {
 	return obj.client.Output(cmd)
 }
+
+func (obj *Ssh) CombinedOutput(cmd string) ([]byte, error) {
+	return obj.client.CombinedOutput(cmd)
+}
+
 func (obj *Ssh) Term(options ...TermOption) error {
 	var option TermOption
 	if len(options) > 0 {
