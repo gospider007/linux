@@ -6,7 +6,7 @@ require (
 	github.com/gospider007/re v0.0.0-20250815031101-a57caeff73bf
 	github.com/gospider007/tools v0.0.0-20251203140650-43dee8a5c707
 	github.com/pkg/sftp v1.13.10
-	golang.org/x/crypto v0.45.0
+	golang.org/x/crypto v0.46.0
 )
 
 require (
@@ -19,8 +19,8 @@ require (
 	github.com/minio/minlz v1.0.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/stretchr/testify v1.11.1 // indirect
-	golang.org/x/image v0.33.0 // indirect
-	golang.org/x/net v0.47.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
-	golang.org/x/text v0.31.0 // indirect
+	golang.org/x/image v0.34.0 // indirect
+	golang.org/x/net v0.48.0 // indirect
+	golang.org/x/sys v0.39.0 // indirect
+	golang.org/x/text v0.32.0 // indirect
 )
