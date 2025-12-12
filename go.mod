@@ -3,7 +3,7 @@ module github.com/gospider007/linux
 go 1.25
 
 require (
-	github.com/gospider007/re v0.0.0-20250815031101-a57caeff73bf
+	github.com/gospider007/re v0.0.0-20251212071142-f56bce921150
 	github.com/gospider007/tools v0.0.0-20251209055936-a37812a2b732
 	github.com/pkg/sftp v1.13.10
 	golang.org/x/crypto v0.46.0
