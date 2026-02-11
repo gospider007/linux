@@ -13,7 +13,7 @@ require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/golang/snappy v1.0.0 // indirect
-	github.com/gospider007/kinds v0.0.0-20250815031133-b2282666f69c // indirect
+	github.com/gospider007/kinds v0.0.0-20260211060834-06a10e2431d8 // indirect
 	github.com/klauspost/compress v1.18.4 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/minio/minlz v1.0.1 // indirect
