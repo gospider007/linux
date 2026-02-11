@@ -1,6 +1,6 @@
 module github.com/gospider007/linux
 
-go 1.25
+go 1.26.0
 
 require (
 	github.com/gospider007/re v0.0.0-20251212071142-f56bce921150
