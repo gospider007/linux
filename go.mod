@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/gospider007/re v0.0.0-20260227072205-6223d82a3dab
-	github.com/gospider007/tools v0.0.0-20260226061734-3c580e5bfd25
+	github.com/gospider007/tools v0.0.0-20260227072349-e468cb98f78b
 	github.com/pkg/sftp v1.13.10
 	golang.org/x/crypto v0.48.0
 )
