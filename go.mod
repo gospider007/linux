@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	github.com/gospider007/re v0.0.0-20260227072205-6223d82a3dab
 	github.com/gospider007/tools v0.0.0-20260709025734-e176d9ab209e
-	github.com/pkg/sftp v1.13.10
+	github.com/pkg/sftp v1.13.11
 	golang.org/x/crypto v0.54.0
 )
 
@@ -18,7 +18,6 @@ require (
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/minio/minlz v1.1.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
-	github.com/stretchr/testify v1.11.1 // indirect
 	golang.org/x/image v0.44.0 // indirect
 	golang.org/x/net v0.57.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
